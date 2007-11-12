@@ -1,0 +1,108 @@
+
+# PORT NUMBER
+# Port number we should wait for connections on.
+# NOTE: This must be a non-priviledged port (i.e. > 1024).
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+server_port=5666
+
+
+
+# SERVER ADDRESS
+# Address that nrpe should bind to in case there are more than one interface
+# and you do not want nrpe to bind on all interfaces.
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+#server_address=192.168.1.1
+
+
+
+# ALLOWED HOST ADDRESSES
+# This is a comma-delimited list of IP address of hosts that are allowed
+# to talk to the NRPE daemon.
+#
+# NOTE: The daemon only does rudimentary checking of the client's IP
+#       address.  I would highly recommend adding entries in your
+#	/etc/hosts.allow file to allow only the specified host to connect
+#	to the port you are running this daemon on.
+#
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+allowed_hosts=*
+
+# NRPE USER
+# This determines the effective user that the NRPE daemon should run as.  
+# You can either supply a username or a UID.
+# 
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+nrpe_user=nobody
+
+# NRPE GROUP
+# This determines the effective group that the NRPE daemon should run as.  
+# You can either supply a group name or a GID.
+# 
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+nrpe_group=nobody
+
+# COMMAND ARGUMENT PROCESSING
+# This option determines whether or not the NRPE daemon will allow clients
+# to specify arguments to commands that are executed.  This option only works
+# if the daemon was configured with the --enable-command-args configure script
+# option.  
+#
+# *** ENABLING THIS OPTION IS A SECURITY RISK! *** 
+# Read the SECURITY file for information on some of the security implications
+# of enabling this variable.
+#
+# Values: 0=do not allow arguments, 1=allow command arguments
+
+dont_blame_nrpe=0
+
+# DEBUGGING OPTION
+# This option determines whether or not debugging messages are logged to the
+# syslog facility.
+# Values: 0=debugging off, 1=debugging on
+
+debug=0
+
+
+
+# COMMAND TIMEOUT
+# This specifies the maximum number of seconds that the NRPE daemon will
+# allow plugins to finish executing before killing them off.
+
+command_timeout=60
+
+
+
+# The following examples use hardcoded command arguments...
+
+command[graceful_apache]=/usr/bin/sudo /sbin/service httpd graceful
+command[check_users]=/usr/lib/nagios/plugins/check_users -w <%= users_warning -%> -c <%= users_critical %>
+command[check_load]=/usr/lib/nagios/plugins/check_load -w <%= load_warning -%> -c <%= load_critical %>
+command[check_slash]=/usr/lib/nagios/plugins/check_disk -w <%= slash_warning -%> -c <%= slash_critical -%> -p /
+command[check_boot]=/usr/lib/nagios/plugins/check_disk -w <%= boot_warning -%> -c <%= boot_critical -%> -p /boot
+command[check_md0]=/usr/lib/nagios/plugins/check_disk -w <%= md0_warning -%> -c <%= md0_critical -%> -p /dev/md0
+command[check_md1]=/usr/lib/nagios/plugins/check_disk -w <%= md1_warning -%> -c <%= md1_critical -%> -p /dev/md1
+command[check_md2]=/usr/lib/nagios/plugins/check_disk -w <%= md2_warning -%> -c <%= md2_critical -%> -p /dev/md2
+command[check_md3]=/usr/lib/nagios/plugins/check_disk -w <%= md3_warning -%> -c <%= md3_critical -%> -p /dev/md3
+command[check_md4]=/usr/lib/nagios/plugins/check_disk -w <%= md4_warning -%> -c <%= md4_critical -%> -p /dev/md4
+command[check_md5]=/usr/lib/nagios/plugins/check_disk -w <%= md5_warning -%> -c <%= md5_critical -%> -p /dev/md5
+command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w <%= zprocs_warning -%> -c <%= zprocs_critical -%> -s Z
+command[check_iowait_procs]=/usr/lib/nagios/plugins/check_procs -w <%= iowaitprocs_warning -%> -c <%= iowaitprocs_critical -%> -s D
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_procs_warning -%> -c <%= total_procs_critical %>
+command[check_memory]=/usr/lib/nagios/plugins/contrib/check_mem.pl -f -w <%= free_mem_warning -%> -c <%= free_mem_critical -%> 
+command[check_swap]=/usr/lib/nagios/plugins/check_swap -w <%= swap_warning -%> -c <%= swap_critical %>
+command[check_smtp]=/usr/lib/nagios/plugins/check_smtp -H 127.0.0.1
+<% if tagged("taskomatic") -%>
+command[check_taskomatic]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 1:2
+<% else -%>
+command[check_taskomatic]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 0:0
+<% end -%>
+command[check_mdstatus]=/usr/bin/sudo /usr/lib/nagios/plugins/check_mdstatus.pl
+command[check_http_lo]=/usr/lib/nagios/plugins/check_http -H 127.0.0.1
+command[graceful_apache]=/usr/bin/sudo /sbin/service httpd graceful
+command[check_poetic]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -M crit -s '<REQ><MSG><PROPS><_NAME>REQ</_NAME><_ACTION>GET_APPSERVER_STATUS</_ACTION></PROPS><SUBMSGS></SUBMSGS></MSG></REQ>' -e 'Success' -p 5866
+command[check_poetic_files]=/usr/bin/sudo /usr/lib/nagios/plugins/check_open_files.sh -p java -w 996 -c 1000
