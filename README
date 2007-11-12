@@ -1,0 +1,23 @@
+Documentation for Nagios puppet module
+
+classes
+    - nagios
+    - nagios::client
+    - nagios::server
+
+
+nagios
+------
+base nagios install, inherited by client and server
+
+nagios::client
+--------------
+client peice
+installs
+    - nrpe
+    - nagios-plugins
+
+creates
+    - nrep.cfg (template)
+    defines base values for all the plugin info
+    
