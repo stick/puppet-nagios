@@ -115,7 +115,7 @@ class nagios::server inherits nagios {
         ensure  => installed,
         require => Package["nagios-plugins"],
     }
-    package { "nrpe-plugin":
+    package { "nagios-plugins-nrpe":
         ensure  => installed,
     }
 
@@ -127,6 +127,10 @@ class nagios::server inherits nagios {
         gid => 251,
     }
 
+    $nagios_dir = '/etc/nagios'
+    file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
+        ensure          => directory,
+    }
     # import the nagios host/service declarations
     File <<||>>
 
