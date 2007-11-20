@@ -128,9 +128,9 @@ class nagios::server inherits nagios {
     }
 
     # import the nagios host declarations
-    File <<|nagios::host|>>
+    File <<|nagios and host|>>
 
     # import the nagios host declarations
-    File <<|nagios::service|>>
+    File <<|nagios and service|>>
 
 }
