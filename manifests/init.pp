@@ -96,12 +96,12 @@ define nagios::host (
     $template = 'host-template',
     $host_name = $fqdn,
     $host_groups = '',
-    $alias = $fqdn,
+    $nagiosalias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,
     $check_command = 'check-host-alive'
 ) {
-    file { $name:
+    @@file { $name:
         name            => "/etc/nagios/conf.d/hosts/${name}.cfg",
         mode            => 0644,
         owner           => nagios,
