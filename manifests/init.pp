@@ -82,7 +82,7 @@ class nagios::client inherits nagios {
 }
 
 define nagios::service (
-    $template = 'service-tempate',
+    $nagios_template = 'service-template',
     $description = '',
     $host_name = $fqdn,
     $service_groups = '',
