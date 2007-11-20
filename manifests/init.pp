@@ -40,19 +40,19 @@ class nagios::client inherits nagios {
 
     # procs
     # this is the number of procs in state Z or D (for iowait) to generate an alert
-    $zprocs_warning = ? $zprocs_warning { '' => '5', default => $zprocs_warning }
-    $zprocs_critical = ? $zprocs_critical { '' => '10', default => $zprocs_critical }
-    $iowaitprocs_warning = ? $iowaitprocs_warning { '' => '5', default => $iowaitprocs_warning }
-    $iowaitprocs_critical = ? $iowaitprocs_critical { '' => '10', default => $iowaitprocs_critical }
-    $total_procs_warning = ? $total_procs_warning { '' => '700', default => $total_procs_warning }
-    $total_procs_critical = ? $total_procs_critical { '' => '1000', default => $total_procs_critical }
+    $zprocs_warning = $zprocs_warning ? { '' => '5', default => $zprocs_warning }
+    $zprocs_critical = $zprocs_critical ? { '' => '10', default => $zprocs_critical }
+    $iowaitprocs_warning = $iowaitprocs_warning ? { '' => '5', default => $iowaitprocs_warning }
+    $iowaitprocs_critical = $iowaitprocs_critical ? { '' => '10', default => $iowaitprocs_critical }
+    $total_procs_warning = $total_procs_warning ? { '' => '700', default => $total_procs_warning }
+    $total_procs_critical = $total_procs_critical ? { '' => '1000', default => $total_procs_critical }
 
     # memory
     # all 4 of these are %'s the free mem check defaults to %'s
-    $free_mem_warning = ? $free_mem_warning { '' => '5', default => $free_mem_warning }
-    $free_mem_critical  = ? $free_mem_critical { '' => '3', default => $free_mem_critical }
-    $swap_warning = ? $swap_warning { '' => '5%', default => $swap_warning }
-    $swap_critical = ? $swap_critical { '' => '2%', default => $swap_critical }
+    $free_mem_warning = $free_mem_warning ? { '' => '5', default => $free_mem_warning }
+    $free_mem_critical  = $free_mem_critical ? { '' => '3', default => $free_mem_critical }
+    $swap_warning = $swap_warning ? { '' => '5%', default => $swap_warning }
+    $swap_critical = $swap_critical ? { '' => '2%', default => $swap_critical }
 
     package { "nrpe":
         ensure  => installed,
