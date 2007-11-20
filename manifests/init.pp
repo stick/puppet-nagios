@@ -127,10 +127,8 @@ class nagios::server inherits nagios {
         gid => 251,
     }
 
-    # import the nagios host declarations
-    File <<|nagios and host|>>
+    # import the nagios host/service declarations
+    File <<||>>
 
-    # import the nagios host declarations
-    File <<|nagios and service|>>
 
 }
