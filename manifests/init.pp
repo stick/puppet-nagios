@@ -71,14 +71,66 @@ class nagios::client inherits nagios {
         notify  => Service["nrpe"],
         content => template("nagios/nrpe-cfg.erb"),
     }
+
+    
+}
+
+define nagios::service (
+    $template = 'service-tempate',
+    $description = '',
+    $host_name = $fqdn,
+    $service_groups = '',
+    $contact_groups = $default_contact_group,
+    $check_command = ''
+) {
+    @@file { $name:
+        name            => "/etc/nagios/conf.d/services/${name}.cfg",
+        mode            => 0644,
+        owner           => nagios,
+        group           => nagios,
+        content         => template("nagios/service.erb"),
+    }
+}
+
+define nagios::host (
+    $template = 'host-template',
+    $host_name = $fqdn,
+    $host_groups = '',
+    $alias = $fqdn,
+    $parents = '',
+    $contact_groups = $default_contact_group,
+    $check_command = 'check-host-alive'
+) {
+    @@file { $name:
+        name            => "/etc/nagios/conf.d/hosts/${name}.cfg",
+        mode            => 0644,
+        owner           => nagios,
+        group           => nagios,
+        content         => template("nagios/host.erb"),
+    }
 }
 
 class nagios::server inherits nagios {
-    package { "nagios":
-        ensure  => installed,
-        require => Package["nagios-plugins"],
+    #package { "nagios":
+        #ensure  => installed,
+        #require => Package["nagios-plugins"],
+    #}
+    #package { "nrpe-plugin":
+        #ensure  => installed,
+    #}
+
+    group { nagios:
+        gid = 251,
     }
-    package { "nrpe-plugin":
-        ensure  => installed,
+    user { nagios:
+        uid = 250,
+        gid = 251,
     }
+
+    # import the nagios host declarations
+    File <<|nagios::host|>>
+
+    # import the nagios host declarations
+    File <<|nagios::service|>>
+
 }
