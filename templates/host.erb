@@ -2,6 +2,7 @@ define host {
     use                         <%= template %>
     host_name                   <%= fqdn %>
     address                     <%= ipaddress %>
+    hostgroups                  <%= host_groups %>
     alias                       <%= alias %>
     contact_groups              <%= contact_groups %> 
     parents                     <%= parents %>
