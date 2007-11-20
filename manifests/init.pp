@@ -13,30 +13,30 @@ class nagios::client inherits nagios {
     # defs for nagios_client
     # any of these can be overridden at the host level
 
-    $users_warning = ? $users_warning { '' => '15', default => $users_warning }
-    $users_critical = ? $users_critical { '' => '30', default => $users_critical }
-    $load_warning = ? $load_warning { '' => '15,15,15', default => $load_warning }
-    $load_critical = ? $load_critical { '' => '30,25,20', default => $load_critical }
+    $users_warning = $users_warning ? { '' => '15', default => $users_warning }
+    $users_critical = $users_critical ? { '' => '30', default => $users_critical }
+    $load_warning = $load_warning ? { '' => '15,15,15', default => $load_warning }
+    $load_critical = $load_critical ? { '' => '30,25,20', default => $load_critical }
 
     # disks
     # % of available space
     # defining as a number will make that a hard limit of K
-    $slash_warning = ? $slash_warning { '' => '10%', default => $slash_warning }
-    $slash_critical = ? $slash_critical { '' => '5%', default => $slash_critical }
-    $boot_warning = ? $boot_warning { '' => '10%', default => $boot_warning }
-    $boot_critical = ? $boot_critical { '' => '5%', default => $boot_critical }
-    $md0_warning = ? $md0_warning { '' => '10%', default => $md0_warning }
-    $md0_critical = ? $md0_critical { '' => '5%', default => $md0_critical }
-    $md1_warning = ? $md1_warning { '' => '10%', default => $md1_warning }
-    $md1_critical = ? $md1_critical { '' => '5%', default => $md1_critical }
-    $md2_warning = ? $md2_warning { '' => '10%', default => $md2_warning }
-    $md2_critical = ? $md2_critical { '' => '5%', default => $md2_critical }
-    $md3_warning = ? $md3_warning { '' => '10%', default => $md3_warning }
-    $md3_critical = ? $md3_critical { '' => '5%', default => $md3_critical }
-    $md4_warning = ? $md4_warning { '' => '10%', default => $md4_warning }
-    $md4_critical = ? $md4_critical { '' => '5%', default => $md4_critical }
-    $md5_warning = ? $md5_warning { '' => '10%', default => $md5_warning }
-    $md5_critical = ? $md5_critical { '' => '5%', default => $md5_critical }
+    $slash_warning = $slash_warning ? { '' => '10%', default => $slash_warning }
+    $slash_critical = $slash_critical ? { '' => '5%', default => $slash_critical }
+    $boot_warning = $boot_warning ? { '' => '10%', default => $boot_warning }
+    $boot_critical = $boot_critical ? { '' => '5%', default => $boot_critical }
+    $md0_warning = $md0_warning ? { '' => '10%', default => $md0_warning }
+    $md0_critical = $md0_critical ? { '' => '5%', default => $md0_critical }
+    $md1_warning = $md1_warning ? { '' => '10%', default => $md1_warning }
+    $md1_critical = $md1_critical ? { '' => '5%', default => $md1_critical }
+    $md2_warning = $md2_warning ? { '' => '10%', default => $md2_warning }
+    $md2_critical = $md2_critical ? { '' => '5%', default => $md2_critical }
+    $md3_warning = $md3_warning ? { '' => '10%', default => $md3_warning }
+    $md3_critical = $md3_critical ? { '' => '5%', default => $md3_critical }
+    $md4_warning = $md4_warning ? { '' => '10%', default => $md4_warning }
+    $md4_critical = $md4_critical ? { '' => '5%', default => $md4_critical }
+    $md5_warning = $md5_warning ? { '' => '10%', default => $md5_warning }
+    $md5_critical = $md5_critical ? { '' => '5%', default => $md5_critical }
 
     # procs
     # this is the number of procs in state Z or D (for iowait) to generate an alert
