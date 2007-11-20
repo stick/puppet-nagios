@@ -54,7 +54,7 @@ class nagios::client inherits nagios {
     $swap_warning = $swap_warning ? { '' => '5%', default => $swap_warning }
     $swap_critical = $swap_critical ? { '' => '2%', default => $swap_critical }
 
-    package { "nrpe":
+    package { "nagios-nrpe":
         ensure  => installed,
         require => Package["net-snmp"],
     }
@@ -63,6 +63,7 @@ class nagios::client inherits nagios {
         enable          => true,
         hasrestart      => true,
         hasstatus       => true,
+        require         => Package["nagios-nrpe"],
     }
     file { "/etc/nagios/nrpe.cfg":
         owner   => root,
