@@ -72,7 +72,13 @@ class nagios::client inherits nagios {
         content => template("nagios/nrpe-cfg.erb"),
     }
 
-    
+    $location = "rdu" # make this a fact
+    $contact_group = "prodops" # make this a fact
+    $nagios_parent = $nagios_parent ? { '' => "coreroute.$location", default => $nagios_parent }
+    nagios::host { $fqdn:
+        parents         => $nagios_parent,
+        contact_groups  => $contact_group,
+    }
 }
 
 define nagios::service (
@@ -84,7 +90,7 @@ define nagios::service (
     $check_command = ''
 ) {
     @@file { $name:
-        name            => "/etc/nagios/conf.d/services/${name}.cfg",
+        name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
