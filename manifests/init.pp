@@ -99,7 +99,7 @@ define nagios::service (
 }
 
 define nagios::host (
-    $template = 'host-template',
+    $nagios_template = 'host-template',
     $host_name = $fqdn,
     $host_groups = '',
     $nagios_alias = $fqdn,
