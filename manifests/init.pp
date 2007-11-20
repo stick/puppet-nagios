@@ -102,7 +102,7 @@ define nagios::host (
     $template = 'host-template',
     $host_name = $fqdn,
     $host_groups = '',
-    $nagiosalias = $fqdn,
+    $nagios_alias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,
     $check_command = 'check-host-alive'
