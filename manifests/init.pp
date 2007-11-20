@@ -111,20 +111,20 @@ define nagios::host (
 }
 
 class nagios::server inherits nagios {
-    #package { "nagios":
-        #ensure  => installed,
-        #require => Package["nagios-plugins"],
-    #}
-    #package { "nrpe-plugin":
-        #ensure  => installed,
-    #}
+    package { "nagios":
+        ensure  => installed,
+        require => Package["nagios-plugins"],
+    }
+    package { "nrpe-plugin":
+        ensure  => installed,
+    }
 
     group { nagios:
-        gid = 251,
+        gid => 251,
     }
     user { nagios:
-        uid = 250,
-        gid = 251,
+        uid => 250,
+        gid => 251,
     }
 
     # import the nagios host declarations
