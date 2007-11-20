@@ -96,11 +96,8 @@ command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_proc
 command[check_memory]=/usr/lib/nagios/plugins/contrib/check_mem.pl -f -w <%= free_mem_warning -%> -c <%= free_mem_critical -%> 
 command[check_swap]=/usr/lib/nagios/plugins/check_swap -w <%= swap_warning -%> -c <%= swap_critical %>
 command[check_smtp]=/usr/lib/nagios/plugins/check_smtp -H 127.0.0.1
-<% if tagged("taskomatic") -%>
-command[check_taskomatic]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 1:2
-<% else -%>
-command[check_taskomatic]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 0:0
-<% end -%>
+command[check_taskomatic_running]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 1:2
+command[check_taskomatic_notrunning]=/usr/lib/nagios/plugins/check_procs -C taskomaticd -c 0:0
 command[check_mdstatus]=/usr/bin/sudo /usr/lib/nagios/plugins/check_mdstatus.pl
 command[check_http_lo]=/usr/lib/nagios/plugins/check_http -H 127.0.0.1
 command[graceful_apache]=/usr/bin/sudo /sbin/service httpd graceful
