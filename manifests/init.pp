@@ -75,7 +75,7 @@ class nagios::client inherits nagios {
 
     # defaults
     $location = "rdu" # make this a fact
-    $default_contact_groups = "prodops" # make this a fact
+    $default_contact_group = "prodops" # make this a fact
     $nagios_parent = $nagios_parent ? { '' => "corerouter.$location", default => $nagios_parent }
 
     # things we monitor for everything with this class
