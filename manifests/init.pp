@@ -103,7 +103,7 @@ class nagios::client inherits nagios {
 }
 
 define nagios::service (
-    $nagios_template = 'service-template',
+    $nagios_template = 'generic-service',
     $host_name = $fqdn,
     $service_groups = '',
     $contact_groups = $default_contact_group,
@@ -124,7 +124,7 @@ define nagios::service (
 }
 
 define nagios::host (
-    $nagios_template = 'host-template',
+    $nagios_template = 'generic-host',
     $host_name = $fqdn,
     $host_groups = '',
     $nagios_alias = $fqdn,
