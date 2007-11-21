@@ -1,6 +1,6 @@
 define service {
     use                         <%= nagios_template %>
-    service_description         <%= description %>
+    service_description         <%= name %>
     service_groups              <%= service_groups %>
     host_name                   <%= host_name %>
     contact_groups              <%= contact_groups %>

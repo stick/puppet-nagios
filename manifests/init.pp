@@ -84,7 +84,6 @@ class nagios::client inherits nagios {
 
 define nagios::service (
     $nagios_template = 'service-template',
-    $description = '',
     $host_name = $fqdn,
     $service_groups = '',
     $contact_groups = $default_contact_group,
