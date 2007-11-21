@@ -88,7 +88,7 @@ define nagios::service (
     $service_groups = '',
     $contact_groups = $default_contact_group,
     $max_check_attempts = 3,
-    $dependency = false,
+    $dependency = 'false',
     $dependent_host = $fqdn,
     $dependent_service = '',
     $check_command = ''
