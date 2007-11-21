@@ -93,7 +93,7 @@ define nagios::service (
     $dependent_service = '',
     $check_command = ''
 ) {
-    @@file { $name:
+    file { $name:
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,
         owner           => nagios,
