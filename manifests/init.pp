@@ -186,30 +186,40 @@ class nagios::server inherits nagios {
         mode            => 0600,
     }
     file { "${nagios_dir}/conf.d/contacts.cfg":
+        source          => "puppet:///nagios/contacts.cfg",
     }
     file { "${nagios_dir}/conf.d/contactgroups.cfg":
+        source          => "puppet:///nagios/contactgroups.cfg",
     }
     file { "${nagios_dir}/conf.d/checkcommands.cfg":
-    }
-    file { "${nagios_dir}/conf.d/dependancies.cfg":
+        source          => "puppet:///nagios/checkcommands.cfg",
     }
     file { "${nagios_dir}/conf.d/escalations.cfg":
+        source          => "puppet:///nagios/escalations.cfg",
     }
     file { "${nagios_dir}/conf.d/hostgroups.cfg":
+        source          => "puppet:///nagios/hostgroups.cfg",
     }
     file { "${nagios_dir}/conf.d/hostextinfo.cfg":
-    }
-    file { "${nagios_dir}/conf.d/notifcationcommands.cfg":
+        source          => "puppet:///nagios/hostextinfo.cfg",
     }
     file { "${nagios_dir}/conf.d/serviceextinfo.cfg":
+        source          => "puppet:///nagios/hostextinfo.cfg",
+    }
+    file { "${nagios_dir}/conf.d/notifcationcommands.cfg":
+        source          => "puppet:///nagios/notificationcommands.cfg",
     }
     file { "${nagios_dir}/conf.d/serviegroups.cfg":
+        source          => "puppet:///nagios/servicegroups.cfg",
     }
     file { "${nagios_dir}/conf.d/timeperios.cfg":
+        source          => "puppet:///nagios/timeperiods.cfg",
     }
     file { "${nagios_dir}/conf.d/hosts.cfg":
+        source          => "puppet:///nagios/hosts.cfg",
     }
     file { "${nagios_dir}/conf.d/services.cfg":
+        source          => "puppet:///nagios/services.cfg",
     }
 
     # cleanup
