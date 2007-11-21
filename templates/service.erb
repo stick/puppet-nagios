@@ -7,7 +7,7 @@ define service {
     host_name                   <%= host_name %>
     contact_groups              <%= contact_groups %>
     check_command               <%= check_command %>
-    max_check_attemps           <%= max_check_attempts  %>
+    max_check_attempts          <%= max_check_attempts  %>
 }
 <% if dependency -%>
 define servicedependency {
