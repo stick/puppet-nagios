@@ -97,7 +97,7 @@ class nagios::client inherits nagios {
         max_check_attempts      => 5,
     }
     nagios::service { "MDSTATUS":
-        check_command           => "check_slash",
+        check_command           => "check_mdstatus",
         max_check_attempts      => 5,
     }
 }
