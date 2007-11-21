@@ -88,6 +88,7 @@ define nagios::service (
     $host_name = $fqdn,
     $service_groups = '',
     $contact_groups = $default_contact_group,
+    $max_check_attempts = 3,
     $check_command = ''
 ) {
     @@file { $name:
