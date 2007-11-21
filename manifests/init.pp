@@ -195,7 +195,7 @@ class nagios::server inherits nagios {
     file { "${nagios_dir}/cgi.cfg":
         source          => "puppet:///nagios/cgi.cfg",
     }
-    file { "${nagios_dir}/resource.cfg":
+    file { "${nagios_dir}/private/resource.cfg":
         content         => template("nagios/resource-cfg.erb"),
         mode            => 0600,
     }
