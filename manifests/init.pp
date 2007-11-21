@@ -83,7 +83,7 @@ class nagios::client inherits nagios {
         parents         => $nagios_parent,
     }
     nagios::service { "NRPE":
-        check_command           => "check-nrpe",
+        check_command           => "check_nrpe",
         dependency              => true,
         dependent_services      => "slash,boot,MDSTATUS",
         max_check_attempts      => 2,
