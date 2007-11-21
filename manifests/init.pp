@@ -98,7 +98,7 @@ define nagios::service (
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
-        tag             => nagios,
+        tag             => nagios_service,
         content         => template("nagios/service.erb"),
     }
 }
@@ -208,6 +208,6 @@ class nagios::server inherits nagios {
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
-    File <<|tag == nagios|>>
+    File <<| tag == nagios_service |>>
 
 }
