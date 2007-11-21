@@ -7,3 +7,14 @@ define service {
     check_command               <%= check_command %>
     max_check_attemps           <%= max_check_attempts  %>
 }
+<% if $dependency -%>
+define servicedependency {
+    host_name                           <%= host_name %>
+    service_description                 <%= name %>
+    dependent_host_name                 <%= dependent_host %>
+    dependent_service_description       <%= dependent_service %>
+    execution_failure_criteria          w,u,c,p
+    notification_failure_criteria       w,u,c,p
+    inherits_parent                     1
+}
+<% end -%>

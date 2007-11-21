@@ -88,6 +88,9 @@ define nagios::service (
     $service_groups = '',
     $contact_groups = $default_contact_group,
     $max_check_attempts = 3,
+    $dependency = false,
+    $dependent_host = $fqdn,
+    $dependent_service = '',
     $check_command = ''
 ) {
     @@file { $name:
@@ -135,13 +138,63 @@ class nagios::server inherits nagios {
     }
 
     $nagios_dir = '/etc/nagios'
+
+    # defaults for file objects
+    File {
+        owner   => nagios,
+        group   => nagios,
+        mode    => 0644,
+        notify  => Service["nagios"],
+    }
+
     file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
         ensure          => directory,
         purge           => true,
         recurse         => true,
     }
-    # import the nagios host/service declarations
-    File <<||>>
 
+    file { "${nagios_dir}/nagios.cfg":
+        source          => "puppet:///nagios/nagios.cfg",
+    }
+    file { "${nagios_dir}/cgi.cfg":
+        source          => "puppet:///nagios/cgi.cfg",
+    }
+    file { "${nagios_dir}/resource.cfg":
+        source          => "puppet:///nagios/resource.cfg",
+        mode            => 0600,
+    }
+    file { "${nagios_dir}/conf.d/contacts.cfg":
+    }
+    file { "${nagios_dir}/conf.d/contactgroups.cfg":
+    }
+    file { "${nagios_dir}/conf.d/contacts.cfg":
+    }
+    file { "${nagios_dir}/conf.d/checkcommands.cfg":
+    }
+    file { "${nagios_dir}/conf.d/dependancies.cfg":
+    }
+    file { "${nagios_dir}/conf.d/escalations.cfg":
+    }
+    file { "${nagios_dir}/conf.d/hostgroups.cfg":
+    }
+    file { "${nagios_dir}/conf.d/hostextinfo.cfg":
+    }
+    file { "${nagios_dir}/conf.d/notifcationcommands.cfg":
+    }
+    file { "${nagios_dir}/conf.d/serviceextinfo.cfg":
+    }
+    file { "${nagios_dir}/conf.d/serviegroups.cfg":
+    }
+    file { "${nagios_dir}/conf.d/timeperios.cfg":
+    }
+    file { "${nagios_dir}/conf.d/hosts.cfg":
+    }
+    file { "${nagios_dir}/conf.d/services.cfg":
+    }
+
+
+    # import the nagios host/service declarations
+    # TODO make this specific to nagios so we can export/collect in other place
+    File <<||>>
 
 }
