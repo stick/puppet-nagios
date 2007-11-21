@@ -196,7 +196,7 @@ class nagios::server inherits nagios {
         size            => "0k",
     }
     tidy { "nagios-rpmnew":
-        name            => "${nagios_dir}/*-sample",
+        name            => "${nagios_dir}/*.rpmnew",
         size            => "0k",
     }
 
