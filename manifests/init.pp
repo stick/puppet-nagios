@@ -151,6 +151,14 @@ class nagios::server inherits nagios {
         ensure  => installed,
     }
 
+    service { "nagios":
+        ensure          => running,
+        enable          => true,
+        hasrestart      => true,
+        hasstatus       => true,
+        require         => Package["nagios"],
+    }
+
     group { nagios:
         gid => 251,
     }
@@ -166,7 +174,7 @@ class nagios::server inherits nagios {
         owner   => nagios,
         group   => nagios,
         mode    => 0644,
-        #notify  => Service["nagios"],
+        notify  => Service["nagios"],
     }
 
     file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
@@ -249,5 +257,8 @@ class nagios::server inherits nagios {
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
     File <<| tag == nagios|>>
+
+    # nagios needs apache
+    include apache
 
 }
