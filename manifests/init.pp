@@ -236,7 +236,9 @@ class nagios::server inherits nagios {
     }
 
     # for the server we create some hosts that are needed that aren't managed by pupet
-    nagios::host { "coreroute.rdu": }
+    nagios::host { "corerouter.rdu":
+        contact_groups  => "prodops",
+    }
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place

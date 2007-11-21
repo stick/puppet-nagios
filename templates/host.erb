@@ -1,11 +1,13 @@
 define host {
     use                         <%= nagios_template %>
-    host_name                   <%= fqdn %>
-    address                     <%= ipaddress %>
+    host_name                   <%= name %>
+    address                     <%= name %>
 <% unless host_groups.empty? -%>
     hostgroups                  <%= host_groups %>
 <% end -%>
     alias                       <%= nagios_alias %>
     contact_groups              <%= contact_groups %> 
+<% unless parents.empty? -%>
     parents                     <%= parents %>
+<% end -%>
 }
