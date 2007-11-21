@@ -93,11 +93,12 @@ define nagios::service (
     $dependent_service = '',
     $check_command = ''
 ) {
-    file { $name:
+    @@file { $name:
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
+        tag             => nagios_service,
         content         => template("nagios/service.erb"),
     }
 }
@@ -116,6 +117,7 @@ define nagios::host (
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
+        tag             => nagios_host,
         content         => template("nagios/host.erb"),
     }
 }
@@ -206,6 +208,6 @@ class nagios::server inherits nagios {
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
-    File <<||>>
+    File <<|tag == nagios_service|>>
 
 }
