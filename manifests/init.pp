@@ -144,7 +144,7 @@ class nagios::server inherits nagios {
         owner   => nagios,
         group   => nagios,
         mode    => 0644,
-        notify  => Service["nagios"],
+        #notify  => Service["nagios"],
     }
 
     file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
