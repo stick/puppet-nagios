@@ -191,12 +191,15 @@ class nagios::server inherits nagios {
     }
 
     # cleanup
-    tidy { "nagios-sample":
-        name            => "${nagios_dir}/*-sample",
-        size            => "0k",
-    }
-    tidy { "nagios-rpmnew":
-        name            => "${nagios_dir}/*.rpmnew",
+    # these are manually set would be nice to wildcard somehow
+    tidy { [
+        "${nagios_dir}/localhost.cfg-sample",
+        "${nagios_dir}/nagios.cfg-sample",
+        "${nagios_dir}/cgi.cfg-sample",
+        "${nagios_dir}/private/resource.cfg-sample",
+        "${nagios_dir}/commands.cfg-sample",
+        "${nagios_dir}/nrpe.cfg.rpmnew"
+    ]:
         size            => "0k",
     }
 
