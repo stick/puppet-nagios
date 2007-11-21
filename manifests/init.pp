@@ -188,6 +188,11 @@ class nagios::server inherits nagios {
         group           => nagios,
         mode            => 0775,
     }
+    file { "/var/log/nagios":
+        owner           => nagios,
+        group           => nagios,
+        recurse         => true,
+    }
 
     file { "${nagios_dir}/nagios.cfg":
         source          => "puppet:///nagios/nagios.cfg",
