@@ -191,15 +191,13 @@ class nagios::server inherits nagios {
     }
 
     # cleanup
-    tidy { "${nagios_dir}/*-sample":
+    tidy { "nagios-sample":
+        name            => "${nagios_dir}/*-sample",
         size            => "0k",
     }
-    tidy { "${nagios_dir}/*.rpmnew":
+    tidy { "nagios-rpmnew":
+        name            => "${nagios_dir}/*-sample",
         size            => "0k",
-    }
-    tidy { "${nagios_dir}/conf.d/services/":
-        size            => "0k",
-        recurse         => true,
     }
 
 
