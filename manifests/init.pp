@@ -167,8 +167,6 @@ class nagios::server inherits nagios {
     }
     file { "${nagios_dir}/conf.d/contactgroups.cfg":
     }
-    file { "${nagios_dir}/conf.d/contacts.cfg":
-    }
     file { "${nagios_dir}/conf.d/checkcommands.cfg":
     }
     file { "${nagios_dir}/conf.d/dependancies.cfg":
