@@ -88,11 +88,11 @@ class nagios::client inherits nagios {
         dependent_services      => "/,/boot,MDSTATUS",
         max_check_attempts      => 2,
     }
-    nagios::service { "/":
+    nagios::service { "slash":
         check_command           => "check_slash",
         max_check_attempts      => 5,
     }
-    nagios::service { "/boot":
+    nagios::service { "boot":
         check_command           => "check_boot",
         max_check_attempts      => 5,
     }
