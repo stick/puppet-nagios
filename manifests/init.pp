@@ -73,12 +73,32 @@ class nagios::client inherits nagios {
         content => template("nagios/nrpe-cfg.erb"),
     }
 
+    # defaults
     $location = "rdu" # make this a fact
-    $contact_group = "prodops" # make this a fact
+    $contact_groups = "prodops" # make this a fact
     $nagios_parent = $nagios_parent ? { '' => "corerouter.$location", default => $nagios_parent }
+
+    # things we monitor for everything with this class
     nagios::host { $fqdn:
         parents         => $nagios_parent,
-        contact_groups  => $contact_group,
+    }
+    nagios::service { "NRPE":
+        check_command           => "check-nrpe",
+        dependency              => true,
+        dependent_services      => "/,/boot,MDSTATUS",
+        max_check_attempts      => 2,
+    }
+    nagios::service { "/":
+        check_command           => "check_slash",
+        max_check_attempts      => 5,
+    }
+    nagios::service { "/boot":
+        check_command           => "check_boot",
+        max_check_attempts      => 5,
+    }
+    nagios::service { "MDSTATUS":
+        check_command           => "check_slash",
+        max_check_attempts      => 5,
     }
 }
 
@@ -90,7 +110,7 @@ define nagios::service (
     $max_check_attempts = 3,
     $dependency = false,
     $dependent_host = $fqdn,
-    $dependent_service = '',
+    $dependent_services = '',
     $check_command = ''
 ) {
     @@file { $name:
@@ -98,7 +118,7 @@ define nagios::service (
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
-        tag             => nagios_service,
+        tag             => nagios,
         content         => template("nagios/service.erb"),
     }
 }
@@ -117,7 +137,7 @@ define nagios::host (
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
-        tag             => nagios_host,
+        tag             => nagios,
         content         => template("nagios/host.erb"),
     }
 }
@@ -208,6 +228,6 @@ class nagios::server inherits nagios {
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
-    File <<| tag == nagios_service |>>
+    File <<| tag == nagios|>>
 
 }

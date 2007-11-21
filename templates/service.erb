@@ -1,7 +1,9 @@
 define service {
     use                         <%= nagios_template %>
     service_description         <%= name %>
+<% if service_groups -%>
     service_groups              <%= service_groups %>
+<% end -%>
     host_name                   <%= host_name %>
     contact_groups              <%= contact_groups %>
     check_command               <%= check_command %>
