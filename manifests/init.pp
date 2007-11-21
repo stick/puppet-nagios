@@ -137,6 +137,8 @@ class nagios::server inherits nagios {
     $nagios_dir = '/etc/nagios'
     file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
         ensure          => directory,
+        purge           => true,
+        recurse         => true,
     }
     # import the nagios host/service declarations
     File <<||>>
