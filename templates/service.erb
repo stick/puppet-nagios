@@ -14,7 +14,7 @@ define servicedependency {
     host_name                           <%= host_name %>
     service_description                 <%= name %>
     dependent_host_name                 <%= dependent_host %>
-    dependent_service_description       <%= dependent_service %>
+    dependent_service_description       <%= dependent_services %>
     execution_failure_criteria          w,u,c,p
     notification_failure_criteria       w,u,c,p
     inherits_parent                     1
