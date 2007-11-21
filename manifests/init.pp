@@ -190,6 +190,15 @@ class nagios::server inherits nagios {
     file { "${nagios_dir}/conf.d/services.cfg":
     }
 
+    # cleanup
+    tidy { "${nagios_dir}/*-sample":
+    }
+    tidy { "${nagios_dir}/*.rpmnew":
+    }
+    tidy { "${nagios_dir}/conf.d/services/":
+        recurse         => true,
+    }
+
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
