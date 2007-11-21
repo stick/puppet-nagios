@@ -260,6 +260,7 @@ class nagios::server inherits nagios {
 
     # nagios needs apache
     include apache
+    include apache::ssl
     file { "/etc/httpd/conf.d/nagios.conf":
         source  => "puppet:///nagios/nagios-httpd.conf",
         notify  => Exec["graceful-apache"],
