@@ -284,8 +284,8 @@ class nagios::server inherits nagios {
         size            => "0k",
     }
 
-    # for the server we create some hosts that are needed that aren't managed by pupet
-    nagios::host { "corerouter.rdu":
+    # for the server we create some hosts that are needed that aren't managed by puppet
+    nagios::host { "corerouter.${location}":
         contact_groups          => "prodops",
         dummy_service           => true,
         escalation_groups       => [ "prodops" ],
