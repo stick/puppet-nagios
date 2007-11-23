@@ -111,8 +111,11 @@ define nagios::service (
     $dependency = false,
     $dependent_host = $fqdn,
     $dependent_services = '',
+    $escalation_contacts = '',
     $check_command = ''
 ) {
+
+    $escalation_stages = [ 7, 10 ]
     @@file { $name:
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,

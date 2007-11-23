@@ -20,3 +20,16 @@ define servicedependency {
     inherits_parent                     1
 }
 <% end -%>
+<% unless escalation_contacts.empty? -%>
+<% for stage in escalation_stages -%>
+define serviceescalation {
+    host_name                   <%= host_name %>
+    service_description         <%= name %>
+    first_notification          <%= stage %>
+    last_notification           0
+    notification_interval       5
+<% contacts << escalation_contacts.shift -%>
+    contact_groups              <%= contacts.join(",") -%>
+}
+<% end -%>
+<% end -%>
