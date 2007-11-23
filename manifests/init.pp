@@ -78,7 +78,7 @@ class nagios::client inherits nagios {
     # this 'should' be a fact, but you can't have a fact as an array
     # TODO figure something out later
     $default_escalation = [ "prodops_247", "managers" ] 
-    $nagios_parent = $nagios_parent ? { '' => "corerouter.${location}", default => $nagios_parent }
+    #$nagios_parent = $nagios_parent ? { '' => "corerouter.${location}", default => $nagios_parent }
 
     # we add ourself (the host) first
     nagios::host { $fqdn:
