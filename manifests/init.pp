@@ -187,11 +187,20 @@ class nagios::server inherits nagios {
     File {
         owner   => nagios,
         group   => nagios,
-        mode    => 0644,
         notify  => Service["nagios"],
     }
 
-    file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts", "${nagios_dir}/conf.d/services" ]:
+    file { "${nagios_dir}/conf.d/":
+        ensure          => directory,
+        purge           => true,
+        recurse         => true,
+    }
+    file { "${nagios_dir}/conf.d/hosts":
+        ensure          => directory,
+        purge           => true,
+        recurse         => true,
+    }
+    file { "${nagios_dir}/conf.d/services":
         ensure          => directory,
         purge           => true,
         recurse         => true,
