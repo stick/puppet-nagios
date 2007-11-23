@@ -74,16 +74,18 @@ class nagios::client inherits nagios {
     }
 
     # defaults
-    $location = "rdu" # make this a fact
     $default_contact_group = "prodops" # make this a fact
-    $default_escalation = [ "prodops_247", "managers" ]
-    $nagios_parent = $nagios_parent ? { '' => "corerouter.$location", default => $nagios_parent }
+    # this 'should' be a fact, but you can't have a fact as an array
+    # TODO figure something out later
+    $default_escalation = [ "prodops_247", "managers" ] 
+    $nagios_parent = $nagios_parent ? { '' => "corerouter.${location}", default => $nagios_parent }
 
-    # things we monitor for everything with this class
+    # we add ourself (the host) first
     nagios::host { $fqdn:
-        parents         => $nagios_parent,
+        parents                 => $nagios_parent,
         escalation_groups       => $default_escalation,
     }
+    # things we monitor for everything with this class
     nagios::service { "NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
@@ -200,12 +202,12 @@ class nagios::server inherits nagios {
         purge           => true,
         recurse         => true,
     }
-    file { "${nagios_dir}/conf.d/hosts":
+    file { "${nagios_dir}/conf.d/hosts/":
         ensure          => directory,
         purge           => true,
         recurse         => true,
     }
-    file { "${nagios_dir}/conf.d/services":
+    file { "${nagios_dir}/conf.d/services/":
         ensure          => directory,
         purge           => true,
         recurse         => true,
