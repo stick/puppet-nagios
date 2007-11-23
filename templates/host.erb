@@ -12,7 +12,7 @@ define host {
 <% end -%>
 }
 <% if dependency -%>
-define hostdependency{
+define hostdependency {
     host_name                           <%= fqdn %>
     dependent_host_name                 <%= dependent_host %>
     notification_failure_criteria       d
