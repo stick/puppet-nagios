@@ -197,20 +197,14 @@ class nagios::server inherits nagios {
         notify  => Service["nagios"],
     }
 
-    file { "${nagios_dir}/conf.d/":
+    file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts/", "${nagios_dir}/conf.d/services/" ]:
         ensure          => directory,
         purge           => true,
         recurse         => true,
+        source          => "puppet:///base/empty",
     }
-    file { "${nagios_dir}/conf.d/hosts/":
+    file { "${nagios_dir}/private":
         ensure          => directory,
-        purge           => true,
-        recurse         => true,
-    }
-    file { "${nagios_dir}/conf.d/services/":
-        ensure          => directory,
-        purge           => true,
-        recurse         => true,
     }
     file { "/var/log/nagios/rw":
         ensure          => directory,
