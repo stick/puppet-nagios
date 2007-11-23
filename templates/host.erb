@@ -25,7 +25,7 @@ define hostescalation {
 <% end -%>
 <% if dummy_service -%>
 define service {
-    use                         <%= nagios_template %>
+    use                         dummy-service
     service_description         OK
     host_name                   <%= name %>
     contact_groups              <%= contact_groups %>
