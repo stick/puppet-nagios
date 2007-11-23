@@ -115,6 +115,7 @@ define nagios::service (
     $check_command = ''
 ) {
 
+    $contacts = [] # leave this blank
     $escalation_stages = [ 7, 10 ]
     @@file { $name:
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
