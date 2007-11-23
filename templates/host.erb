@@ -23,7 +23,7 @@ define hostescalation {
 }
 <% end -%>
 <% end -%>
-<% if $dummy_service == true -%>
+<% if $dummy_service -%>
 define service {
     use                         <%= nagios_template %>
     service_description         OK
