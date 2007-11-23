@@ -11,3 +11,15 @@ define host {
     parents                     <%= parents %>
 <% end -%>
 }
+<% unless escalation_contacts.empty? -%>
+<% for stage in escalation_stages -%>
+define hostescalation {
+    host_name                   <%= name %>
+    first_notification          <%= stage %>
+    last_notification           0
+    notification_interval       5
+<% contacts << escalation_contacts.shift -%>
+    contact_groups              <%= contacts.join(",") %>
+}
+<% end -%>
+<% end -%>

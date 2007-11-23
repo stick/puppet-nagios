@@ -111,12 +111,12 @@ define nagios::service (
     $dependency = false,
     $dependent_host = $fqdn,
     $dependent_services = '',
-    $escalation_contacts = '',
+    $escalation_contacts = [],
+    $escalation_stages = [ 7, 10 ],
     $check_command = ''
 ) {
 
     $contacts = [] # leave this blank
-    $escalation_stages = [ 7, 10 ]
     @@file { $name:
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,
@@ -134,8 +134,12 @@ define nagios::host (
     $nagios_alias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,
+    $escalation_contacts = [],
+    $escalation_stages = [ 7, 10 ],
     $check_command = 'check-host-alive'
 ) {
+
+    $contacts = [] # leave this blank
     @@file { $name:
         name            => "/etc/nagios/conf.d/hosts/${name}.cfg",
         mode            => 0644,
