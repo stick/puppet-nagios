@@ -142,6 +142,7 @@ define nagios::host (
     $contact_groups = $default_contact_group,
     $escalation_groups = [],
     $escalation_stages = [ 7, 10 ],
+    $dummy_service = false,
     $check_command = 'check-host-alive'
 ) {
 
@@ -279,8 +280,9 @@ class nagios::server inherits nagios {
 
     # for the server we create some hosts that are needed that aren't managed by pupet
     nagios::host { "corerouter.rdu":
-        contact_groups  => "prodops",
+        contact_groups          => "prodops",
         escalation_groups       => [ "prodops" ],
+        dummy_service           => true,
     }
 
     # import the nagios host/service declarations

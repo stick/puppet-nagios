@@ -23,3 +23,13 @@ define hostescalation {
 }
 <% end -%>
 <% end -%>
+<% if $dummy_service == true -%>
+define service {
+    use                         <%= nagios_template %>
+    service_description         OK
+    host_name                   <%= name %>
+    contact_groups              <%= contact_groups %>
+    check_command               check_ok
+    max_check_attemtps          0
+} 
+<% end -%>
