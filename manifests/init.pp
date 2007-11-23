@@ -140,6 +140,8 @@ define nagios::host (
     $nagios_alias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,
+    $dependency = false,
+    $dependent_host = '',
     $escalation_groups = [],
     $escalation_stages = [ 7, 10 ],
     $dummy_service = false,

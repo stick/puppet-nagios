@@ -11,6 +11,13 @@ define host {
     parents                     <%= parents %>
 <% end -%>
 }
+<% if dependency -%>
+define hostdependency{
+    host_name                           <%= fqdn %>
+    dependent_host_name                 <%= dependent_host %>
+    notification_failure_criteria       d
+}
+<% end -%>
 <% unless escalation_groups.empty? -%>
 <% for stage in escalation_stages -%>
 define hostescalation {
