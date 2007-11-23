@@ -76,29 +76,35 @@ class nagios::client inherits nagios {
     # defaults
     $location = "rdu" # make this a fact
     $default_contact_group = "prodops" # make this a fact
+    $default_escalation = [ "prodops_247", "managers" ]
     $nagios_parent = $nagios_parent ? { '' => "corerouter.$location", default => $nagios_parent }
 
     # things we monitor for everything with this class
     nagios::host { $fqdn:
         parents         => $nagios_parent,
+        escalation_groups       => $default_escalation,
     }
     nagios::service { "NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
         dependent_services      => "slash,boot,MDSTATUS",
         max_check_attempts      => 2,
+        escalation_groups       => $default_escalation,
     }
     nagios::service { "slash":
         check_command           => "check_slash",
         max_check_attempts      => 5,
+        escalation_groups       => $default_escalation,
     }
     nagios::service { "boot":
         check_command           => "check_boot",
         max_check_attempts      => 5,
+        escalation_groups       => $default_escalation,
     }
     nagios::service { "MDSTATUS":
         check_command           => "check_mdstatus",
         max_check_attempts      => 5,
+        escalation_groups       => $default_escalation,
     }
 }
 
@@ -111,7 +117,7 @@ define nagios::service (
     $dependency = false,
     $dependent_host = $fqdn,
     $dependent_services = '',
-    $escalation_contacts = [],
+    $escalation_groups = [],
     $escalation_stages = [ 7, 10 ],
     $check_command = ''
 ) {
@@ -134,7 +140,7 @@ define nagios::host (
     $nagios_alias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,
-    $escalation_contacts = [],
+    $escalation_groups = [],
     $escalation_stages = [ 7, 10 ],
     $check_command = 'check-host-alive'
 ) {
@@ -265,6 +271,7 @@ class nagios::server inherits nagios {
     # for the server we create some hosts that are needed that aren't managed by pupet
     nagios::host { "corerouter.rdu":
         contact_groups  => "prodops",
+        escalation_groups       => "prodops",
     }
 
     # import the nagios host/service declarations
