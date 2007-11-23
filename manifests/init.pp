@@ -129,6 +129,7 @@ define nagios::service (
         owner           => nagios,
         group           => nagios,
         tag             => nagios,
+        notify          => Service["nagios"],
         content         => template("nagios/service.erb"),
     }
 }
@@ -155,6 +156,7 @@ define nagios::host (
         owner           => nagios,
         group           => nagios,
         tag             => nagios,
+        notify          => Service["nagios"],
         content         => template("nagios/host.erb"),
     }
 }
