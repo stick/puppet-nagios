@@ -252,7 +252,7 @@ class nagios::server inherits nagios {
     file { "${nagios_dir}/conf.d/notifcationcommands.cfg":
         source          => "puppet:///nagios/notificationcommands.cfg",
     }
-    file { "${nagios_dir}/conf.d/serviegroups.cfg":
+    file { "${nagios_dir}/conf.d/servicegroups.cfg":
         source          => "puppet:///nagios/servicegroups.cfg",
     }
     file { "${nagios_dir}/conf.d/timeperios.cfg":
