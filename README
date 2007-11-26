@@ -20,4 +20,82 @@ installs
 creates
     - nrep.cfg (template)
     defines base values for all the plugin info
+    sets up monitoring of nrpe and associated basic nrpe services (check manifests for further details)
     
+
+Defines
+-------
+nagios::host
+============
+    create a host to be monitored in nagios
+    the nagios::client class creates this automatically for any host that has that class defined
+    in general the only other use for this type is to create host monitoring clauses for hosts that are
+    not managed by puppet
+
+minimum requirements:
+nagios::host { NAME:
+} 
+
+common evocation:
+nagios::host { NAME:
+    parents             => "parent1",
+    dummy_service       => true,
+    escalation_groups   => [ "contactgroup", "contactgroup2" ], #must be an array
+}
+
+full options :
+nagios::host { NAME:
+    $nagios_template = 'generic-host',
+    $host_name = #defaults to fully qualified hostname
+    $host_groups = '',
+    $nagios_alias = #defaults to fully qualified hostname
+    $parents = '', [1]
+    $contact_groups = $default_contact_group,
+    $dependency = false,
+    $dependent_host = '',
+    $escalation_groups = [], [2]
+    $escalation_stages = [ 7, 10 ],
+    $dummy_service = false, [3]
+    $check_command = 'check-host-alive'
+}
+
+Notes:
+[1] if you define a parent that parent must exist as a host or nagios will fail to restart
+    this type does not create the host for you
+[2] escalations default to 7th and 10th notification, but there is no current default escalation
+[3] dummy service means the service check attatched to this host will *always* succeed (useful for routers)
+
+
+
+nagios::service
+===============
+    creates a service to be monitored in nagios
+
+minimum requirements:
+nagios::service { NAME:
+    check_command       => "valid check command",
+}
+
+full options:
+nagios::service { NAME:
+    $nagios_template = 'generic-service',
+    $host_name = $fqdn,
+    $service_groups = '',
+    $contact_groups = $default_contact_group,
+    $max_check_attempts = 3,
+    $dependency = false, [1]
+    $dependent_host = $fqdn,
+    $dependent_services = '', 
+    $escalation_groups = [],
+    $escalation_stages = [ 7, 10 ],
+    $check_command = ''
+}
+
+Notes:
+[1] basic deps work fine, if you are trying to do something complex this may not be the appropriate way to do it
+you can specify another dependent host and corresponding service to do things like build a dependency on a db on another machine
+but if you have multiple dependencies like the core service depends on 2 different dbs on 2 different servers you have to be careful
+how you set it up.  It may work fine to list the hosts seperated by commas and then the hosts in the same order
+but this hasn't been tested so you've been warned.
+
+
