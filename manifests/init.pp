@@ -73,6 +73,12 @@ class nagios::client inherits nagios {
         content => template("nagios/nrpe-cfg.erb"),
     }
 
+    # open firewall for nrpe
+    firewall::rule { NRPE:
+        comment         => "inbound access for nrpe/5666",
+        source_port     => 5666,
+    }
+
     # defaults
     $default_contact_group = "prodops" # make this a fact
     # this 'should' be a fact, but you can't have a fact as an array
