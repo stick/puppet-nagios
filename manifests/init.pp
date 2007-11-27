@@ -72,6 +72,16 @@ class nagios::client inherits nagios {
         notify  => Service["nrpe"],
         content => template("nagios/nrpe-cfg.erb"),
     }
+    file { "nagios-plugins":
+        name            => $architecture ? {
+            'x86_64'    => "/usr/lib64/nagios/plugins/",
+            default     => "/usr/lib/nagios/plugins/",
+        },
+        recurse         => true,
+        purge           => true,
+        source          => [ "puppet:///nagios/plugins/", "puppet:///nagios/empty" ],
+    }
+
 
     # open firewall for nrpe
     firewall::rule { NRPE:

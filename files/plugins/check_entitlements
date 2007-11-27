@@ -1,0 +1,129 @@
+#!/usr/bin/python
+#
+# rhn entitlement queue check script
+#
+# $Id: check_entitlements,v 1.5 2006/09/02 15:41:06 mgalgoci Exp $
+
+import sys
+import time
+import signal
+import cx_Oracle
+
+def usage(exit_code):
+    print "Usage: %s [-t timeout] connect_string"
+    sys.exit(exit_code)
+
+def main():
+    connect_string = ""
+    timeout = 300
+    args = sys.argv[1:]
+    while args:
+        arg = args[0]
+        del args[0]
+        if arg == '-t':
+            if not len(args):
+                sys.stderr.write("-t specified, but no value provided\n")
+                sys.exit(1)
+            timeout = int(args[0])
+            del args[0]
+        elif arg in ('-h', '--help'):
+            usage(0)
+        else:
+            if connect_string:
+                sys.stderr.write("A connection string was already specified\n")
+                sys.exit(-1)
+            connect_string = arg
+    if not connect_string:
+        sys.stderr.write("Missing connection string (use --help for help)\n")
+        sys.exit(-1)
+
+    t = MyTimeoutRequest(connect_string, timeout)
+    # This timeout is for the Oracle request
+    t.run(10)
+    return 0
+
+class TimeoutRequest:
+    _old_signal = None
+
+    def __init__(self):
+        pass
+
+    def set_alarm_handler(self):
+        TimeoutRequest._old_signal = signal.getsignal(signal.SIGALRM)
+        signal.signal(signal.SIGALRM, self.alarm_sighandler)
+        return self
+
+    def alarm(self, timeout):
+        signal.alarm(timeout)
+        return self
+
+    def restore_signal(self):
+        # Cancel any previously scheduled alarms
+        signal.alarm(0)
+        if TimeoutRequest._old_signal is not None:
+            signal.signal(signal.SIGALRM, TimeoutRequest._old_signal)
+            TimeoutRequest._old_signal = None
+        return self
+
+    def alarm_sighandler(self, signum, frame):
+        raise NotImplementedError
+
+    def action(self):
+        raise NotImplementedError
+
+    def timeout_action(self):
+        raise NotImplementedError
+
+    def run(self, timeout):
+        if self._old_signal is None:
+            # Set the alarm handler
+            self.set_alarm_handler()
+
+        self.alarm(timeout)
+
+        try:
+            self.action()
+        except IOError, e:
+            if e.errno == 4:
+                # interupted system call
+                self.timeout_action()
+            else:
+                raise
+        self.restore_signal()
+
+
+class MyTimeoutRequest(TimeoutRequest):
+    def __init__(self, connect_string, timeout):
+        TimeoutRequest.__init__(self)
+        self.connect_string = connect_string
+        self.timeout = timeout
+
+    def alarm_sighandler(self, signum, frame):
+        print "In sighandler", frame.f_lineno
+
+    def action(self):
+        cn = cx_Oracle.Connection(self.connect_string)
+        db = cx_Oracle.Cursor(cn)
+        qstr = """select count(*) from rhnEntitlementQueue"""
+        db.prepare(qstr)
+        db.execute(qstr)
+        rcnt = db.fetchone()
+        db.close()
+        if not rcnt:
+            print "rowcount not returned from rhnEntitlementQueue"
+            sys.exit(-1)
+        cnt = int(rcnt[0])
+        print cnt
+        if cnt >= 2000:
+            sys.exit(2)
+        elif cnt >= 1000:
+            sys.exit(1)
+        else:
+            sys.exit(0)
+
+    def timeout_action(self):
+        print "Timeout"
+        sys.exit(1)
+
+if __name__ == '__main__':
+    sys.exit(main() or 0)
