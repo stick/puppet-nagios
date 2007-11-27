@@ -120,10 +120,15 @@ class nagios::client inherits nagios {
         max_check_attempts      => 5,
         escalation_groups       => $default_escalation,
     }
-    nagios::service { "MDSTATUS":
-        check_command           => "check_mdstatus",
-        max_check_attempts      => 5,
-        escalation_groups       => $default_escalation,
+
+    # only create this service is we determine (via the raid fact)
+    # that the node has raid
+    if $raid {
+        nagios::service { "MDSTATUS":
+            check_command           => "check_mdstatus",
+            max_check_attempts      => 5,
+            escalation_groups       => $default_escalation,
+        }
     }
 }
 
