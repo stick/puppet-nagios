@@ -72,11 +72,12 @@ class nagios::client inherits nagios {
         notify  => Service["nrpe"],
         content => template("nagios/nrpe-cfg.erb"),
     }
-    file { "nagios-plugin-dir":
-        name            => $architecture ? {
-            'x86_64'    => "/usr/lib64/nagios/plugins/",
-            default     => "/usr/lib/nagios/plugins/",
-        },
+
+    $plugin_dir = $arch ? { 
+            'x86_64'    => "/usr/lib64/nagios/plugins/extra",
+            default     => "/usr/lib/nagios/plugins/extra",
+    }
+    file { $plugin_dir:
         recurse         => true,
         purge           => true,
         source          => [ "puppet:///nagios/plugins/", "puppet:///nagios/empty" ],
