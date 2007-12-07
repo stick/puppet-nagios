@@ -106,7 +106,7 @@ class nagios::client inherits nagios {
     nagios::service { "NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
-        dependent_services      => $raid ? { '' => "slash,boot", default => "slash,boot,MDSTATUS" },
+        dependent_services      => "slash,boot,MDSTATUS",
         max_check_attempts      => 2,
         escalation_groups       => $default_escalation,
     }
