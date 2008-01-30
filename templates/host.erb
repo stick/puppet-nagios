@@ -11,6 +11,10 @@ define host {
     parents                     <%= parents %>
 <% end -%>
 }
+define hostextinfo {
+    host_name                   <%= name %>
+    notes_url                   /munin/<%= domain %>/<%= name %>.html
+}
 <% if dependency -%>
 define hostdependency {
     host_name                           <%= fqdn %>
