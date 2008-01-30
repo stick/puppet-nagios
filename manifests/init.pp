@@ -77,7 +77,7 @@ class nagios::client inherits nagios {
         content => template("nagios/nrpe-cfg.erb"),
     }
 
-    $plugin_dir = $arch ? { 
+    $plugin_dir = $architecture ? { 
             'x86_64'    => "/usr/lib64/nagios/plugins/extra",
             default     => "/usr/lib/nagios/plugins/extra",
     }
