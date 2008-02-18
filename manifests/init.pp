@@ -85,6 +85,7 @@ class nagios::client inherits nagios {
         recurse         => true,
         purge           => true,
         source          => [ "puppet:///nagios/plugins/", "puppet:///nagios/empty" ],
+        require         => Package["nagios-plugins"],
     }
 
 
