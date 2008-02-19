@@ -91,8 +91,8 @@ class nagios::client inherits nagios {
 
     # open firewall for nrpe
     firewall::rule { NRPE:
-        comment         => "inbound access for nrpe/5666",
-        source_port     => 5666,
+        comment                 => "inbound access for nrpe/5666",
+        destination_port        => 5666,
     }
 
     # defaults
