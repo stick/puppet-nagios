@@ -1,10 +1,19 @@
 class nagios {
-    package { "nagios-plugins":
-        ensure  => installed,
-        require => Package["nagios-plugins-setuid"],
-    }
-    package { "nagios-plugins-setuid":
-        ensure  => installed,
+    case $operatingsystemrelease {
+        4: {
+            package { "nagios-plugins":
+                ensure  => installed,
+            }
+        }
+        default: {
+            package { "nagios-plugins":
+                ensure  => installed,
+                require => Package["nagios-plugins-setuid"],
+            }
+            package { "nagios-plugins-setuid":
+                ensure  => installed,
+            }
+        }
     }
 }
 
