@@ -109,7 +109,7 @@ class nagios::client inherits nagios {
     # this 'should' be a fact, but you can't have a fact as an array
     # TODO figure something out later
     $default_escalation = [ "prodops_247", "managers" ] 
-    #$nagios_parent = $nagios_parent ? { '' => "corerouter.${location}", default => $nagios_parent }
+    #$nagios_parent = $nagios_parent ? { '' => "corerouter.${site}", default => $nagios_parent }
 
     # we add ourself (the host) first
     nagios::host { $fqdn:
@@ -315,7 +315,7 @@ class nagios::server inherits nagios {
     }
 
     # for the server we create some hosts that are needed that aren't managed by puppet
-    nagios::host { "corerouter.${location}":
+    nagios::host { "corerouter.${site}":
         contact_groups          => "prodops",
         dummy_service           => true,
         escalation_groups       => [ "prodops" ],
