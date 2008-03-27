@@ -161,7 +161,7 @@ define nagios::service (
 ) {
 
     $contacts = [] # leave this blank
-    @@file { $name:
+    @@file { "service:${name}":
         name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
         mode            => 0644,
         owner           => nagios,
@@ -188,7 +188,7 @@ define nagios::host (
 ) {
 
     $contacts = [] # leave this blank
-    @@file { $name:
+    @@file { "host:${name}":
         name            => "/etc/nagios/conf.d/hosts/${name}.cfg",
         mode            => 0644,
         owner           => nagios,
