@@ -363,11 +363,11 @@ class nagios::server inherits nagios {
     }
 
     # for the server we create some hosts that are needed that aren't managed by puppet
-    nagios::host { "corerouter.${site}":
-        contact_groups          => "prodops",
-        dummy_service           => true,
-        escalation_groups       => [ "prodops" ],
-    }
+#    nagios::host { "corerouter.${site}":
+#        contact_groups          => "prodops",
+#        dummy_service           => true,
+#        escalation_groups       => [ "prodops" ],
+#    }
 
     # import the nagios host/service declarations
     # TODO make this specific to nagios so we can export/collect in other place
