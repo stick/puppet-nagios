@@ -13,7 +13,7 @@ define host {
 }
 define hostextinfo {
     host_name                   <%= name %>
-    notes_url                   http://<% nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
+    notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
 }
 <% if dependency -%>
 define hostdependency {
