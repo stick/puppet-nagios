@@ -117,10 +117,13 @@ class nagios::client inherits nagios {
         escalation_groups       => $default_escalation,
     }
     # things we monitor for everything with this class
+    if $raid {
+        $mdstatus_dep = ",MDSTATUS"
+    }
     nagios::service { "NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
-        dependent_services      => "slash,boot,MDSTATUS",
+        dependent_services      => "slash,boot${mdstatus_dep}",
         max_check_attempts      => 2,
         escalation_groups       => $default_escalation,
     }
@@ -204,6 +207,10 @@ class nagios::server inherits nagios {
         ensure  => installed,
         require => Package["nagios-plugins"],
     }
+    package { "nagios-www":
+        ensure  => installed,
+        require => Package["nagios"],
+    }
     package { "nagios-plugins-nrpe":
         ensure  => installed,
     }
@@ -233,14 +240,23 @@ class nagios::server inherits nagios {
         notify  => Service["nagios"],
     }
 
-    file { [ "${nagios_dir}/conf.d/", "${nagios_dir}/conf.d/hosts/", "${nagios_dir}/conf.d/services/" ]:
+    file { "${nagios_dir}/conf.d/":
         ensure          => directory,
         purge           => true,
         recurse         => true,
-        source          => "puppet:///base/empty",
+        require         => Package["nagios"],
     }
+
+    file { [ "${nagios_dir}/conf.d/hosts/", "${nagios_dir}/conf.d/services/" ]:
+        ensure          => directory,
+        purge           => true,
+        recurse         => true,
+        require         => File["${nagios_dir}/conf.d"],
+    }
+
     file { "${nagios_dir}/private":
         ensure          => directory,
+        require         => Package["nagios"],
     }
     file { "/var/log/nagios/rw":
         ensure          => directory,
@@ -254,51 +270,82 @@ class nagios::server inherits nagios {
         recurse         => true,
     }
 
+    file { "/var/log/nagios/spool":
+        owner           => nagios,
+        group           => nagios,
+        ensure          => directory,
+        mode            => 0755,
+        require         => File["/var/log/nagios"],
+    }
+
+    file { "/var/log/nagios/spool/checkresults":
+        owner           => nagios,
+        group           => nagios,
+        ensure          => directory,
+        mode            => 0755,
+        require         => File["/var/log/nagios/spool"],
+    }
+
     file { "${nagios_dir}/nagios.cfg":
         source          => "puppet:///nagios/nagios.cfg",
+        require         => Package["nagios"],
     }
     file { "${nagios_dir}/cgi.cfg":
         source          => "puppet:///nagios/cgi.cfg",
+        require         => Package["nagios"],
     }
     file { "${nagios_dir}/private/resource.cfg":
         content         => template("nagios/resource-cfg.erb"),
         mode            => 0600,
+        require         => File["${nagios_dir}/private"],
     }
     file { "${nagios_dir}/conf.d/contacts.cfg":
         source          => "puppet:///nagios/contacts.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/contactgroups.cfg":
         source          => "puppet:///nagios/contactgroups.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/checkcommands.cfg":
         source          => "puppet:///nagios/checkcommands.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/escalations.cfg":
         source          => "puppet:///nagios/escalations.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/hostgroups.cfg":
         source          => "puppet:///nagios/hostgroups.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/hostextinfo.cfg":
         source          => "puppet:///nagios/hostextinfo.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/serviceextinfo.cfg":
         source          => "puppet:///nagios/hostextinfo.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/notifcationcommands.cfg":
         source          => "puppet:///nagios/notificationcommands.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/servicegroups.cfg":
         source          => "puppet:///nagios/servicegroups.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/timeperios.cfg":
         source          => "puppet:///nagios/timeperiods.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/hosts.cfg":
         source          => "puppet:///nagios/hosts.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
     file { "${nagios_dir}/conf.d/services.cfg":
         source          => "puppet:///nagios/services.cfg",
+        require         => File["${nagios_dir}/conf.d"],
     }
 
     # cleanup
@@ -307,6 +354,7 @@ class nagios::server inherits nagios {
         "${nagios_dir}/localhost.cfg-sample",
         "${nagios_dir}/nagios.cfg-sample",
         "${nagios_dir}/cgi.cfg-sample",
+        "${nagios_dir}/*.rpmnew",
         "${nagios_dir}/private/resource.cfg-sample",
         "${nagios_dir}/commands.cfg-sample",
         "${nagios_dir}/nrpe.cfg.rpmnew"
