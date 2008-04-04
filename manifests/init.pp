@@ -118,12 +118,12 @@ class nagios::client inherits nagios {
     }
     # things we monitor for everything with this class
     if $raid {
-        $mdstatus_dep = ",MDSTATUS"
+        $mdstatus_dep = ",${fqdn}-MDSTATUS"
     }
     nagios::service { "${fqdn}-NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
-        dependent_services      => "slash,boot${mdstatus_dep}",
+        dependent_services      => "${fqdn}-slash,${fqdn}-boot${mdstatus_dep}",
         max_check_attempts      => 2,
         escalation_groups       => $default_escalation,
     }
