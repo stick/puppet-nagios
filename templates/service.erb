@@ -1,4 +1,4 @@
-<% service_name = name.gsub("#{fqdn}", "") -%>
+<% service_name = name.gsub("#{fqdn}-", "") -%>
 define service {
     use                         <%= nagios_template %>
     service_description         <%= service_name %>
