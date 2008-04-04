@@ -165,7 +165,7 @@ define nagios::service (
 
     $contacts = [] # leave this blank
     @@file { "service:${name}":
-        name            => "/etc/nagios/conf.d/services/${fqdn}_${name}.cfg",
+        name            => "/etc/nagios/conf.d/services/${name}.cfg",
         mode            => 0644,
         owner           => nagios,
         group           => nagios,
