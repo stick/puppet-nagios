@@ -1,6 +1,7 @@
+<% service_name = name.gsub("#{fqdn}", "") -%>
 define service {
     use                         <%= nagios_template %>
-    service_description         <%= name %>
+    service_description         <%= service_name %>
 <% unless service_groups.empty? -%>
     servicegroups               <%= service_groups %>
 <% end -%>
@@ -12,7 +13,7 @@ define service {
 <% if dependency -%>
 define servicedependency {
     host_name                           <%= host_name %>
-    service_description                 <%= name %>
+    service_description                 <%= service_name %>
     dependent_host_name                 <%= dependent_host %>
     dependent_service_description       <%= dependent_services %>
     execution_failure_criteria          w,u,c,p
@@ -24,7 +25,7 @@ define servicedependency {
 <% for stage in escalation_stages -%>
 define serviceescalation {
     host_name                   <%= host_name %>
-    service_description         <%= name %>
+    service_description         <%= service_name %>
     first_notification          <%= stage %>
     last_notification           0
     notification_interval       5
