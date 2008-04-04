@@ -224,11 +224,11 @@ class nagios::server inherits nagios {
     }
 
     group { nagios:
-        gid => 250,
+        gid => 251,
     }
     user { nagios:
         uid => 250,
-        gid => 250,
+        gid => 251,
     }
 
     $nagios_dir = '/etc/nagios'
