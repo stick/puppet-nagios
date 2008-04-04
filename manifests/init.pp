@@ -120,19 +120,19 @@ class nagios::client inherits nagios {
     if $raid {
         $mdstatus_dep = ",MDSTATUS"
     }
-    nagios::service { "NRPE":
+    nagios::service { "${fqdn}-NRPE":
         check_command           => "check_nrpe",
         dependency              => true,
         dependent_services      => "slash,boot${mdstatus_dep}",
         max_check_attempts      => 2,
         escalation_groups       => $default_escalation,
     }
-    nagios::service { "slash":
+    nagios::service { "${fqdn}-slash":
         check_command           => "check_slash",
         max_check_attempts      => 5,
         escalation_groups       => $default_escalation,
     }
-    nagios::service { "boot":
+    nagios::service { "${fqdn}-boot":
         check_command           => "check_boot",
         max_check_attempts      => 5,
         escalation_groups       => $default_escalation,
@@ -141,7 +141,7 @@ class nagios::client inherits nagios {
     # only create this service is we determine (via the raid fact)
     # that the node has raid
     if $raid {
-        nagios::service { "MDSTATUS":
+        nagios::service { "${fqdn}-MDSTATUS":
             check_command           => "check_mdstatus",
             max_check_attempts      => 5,
             escalation_groups       => $default_escalation,
