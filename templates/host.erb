@@ -9,11 +9,8 @@ define host {
     contact_groups              <%= contact_groups %> 
 <% unless parents.empty? -%>
     parents                     <%= parents %>
-<% end -%>
-}
-define hostextinfo {
-    host_name                   <%= name %>
     notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
+<% end -%>
 }
 <% if dependency -%>
 define hostdependency {
