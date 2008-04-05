@@ -2,6 +2,7 @@ define host {
     use                         <%= nagios_template %>
     host_name                   <%= name %>
     address                     <%= name %>
+    notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
 <% unless host_groups.empty? -%>
     hostgroups                  <%= host_groups %>
 <% end -%>
@@ -9,7 +10,6 @@ define host {
     contact_groups              <%= contact_groups %> 
 <% unless parents.empty? -%>
     parents                     <%= parents %>
-    notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
 <% end -%>
 }
 <% if dependency -%>
