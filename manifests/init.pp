@@ -206,6 +206,21 @@ define nagios::host (
 }
 
 class nagios::server inherits nagios {
+    include apache::auth_kerb
+
+    # move this to something more common
+    # short list for testing
+    $nagios_auth_users = [
+        "cmacleod",
+        "csmith",
+        "jeckersb",
+        "jpickard"
+    ]
+    apache::auth_kerb::access { "nagios":
+        path            => "/nagios",
+        allowed_users   => $nagios_auth_users,
+    }
+
     package { "nagios":
         ensure  => installed,
         require => Package["nagios-plugins"],
