@@ -217,7 +217,6 @@ class nagios::server inherits nagios {
         "jpickard"
     ]
     apache::auth_kerb::access { "nagios":
-        krb_auth_realms         => 'REDHAT.COM',
         allowed_users           => $nagios_auth_users,
     }
 
