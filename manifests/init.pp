@@ -206,19 +206,6 @@ define nagios::host (
 }
 
 class nagios::server inherits nagios {
-    include apache::auth_kerb
-
-    # move this to something more common
-    # short list for testing
-    $nagios_auth_users = [
-        "cmacleod",
-        "csmith",
-        "jeckersb",
-        "jpickard"
-    ]
-    apache::auth_kerb::access { "nagios":
-        allowed_users           => $nagios_auth_users,
-    }
 
     package { "nagios":
         ensure  => installed,
@@ -393,6 +380,22 @@ class nagios::server inherits nagios {
     # nagios needs apache
     include apache
     include apache::ssl
+    include apache::auth_kerb
+
+    # move this to something more common
+    # short list for testing
+    $nagios_auth_users = [
+        "cmacleod",
+        "csmith",
+        "jeckersb",
+        "jpickard"
+    ]
+    apache::auth_kerb::access { "nagios":
+        allowed_users           => $nagios_auth_users,
+    }
+
+    apache::ssl::cert { "${fqdn}": }
+
     file { "/etc/httpd/conf.d/nagios.conf":
         source  => "puppet:///nagios/nagios-httpd.conf",
         notify  => Exec["graceful-apache"],
