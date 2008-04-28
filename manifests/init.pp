@@ -388,7 +388,13 @@ class nagios::server inherits nagios {
         "cmacleod",
         "csmith",
         "jeckersb",
-        "jpickard"
+        "jpickard",
+	"trobert",
+        "plundin",
+        "batkisso",
+        "jstrong",
+        "madisonj",
+        "ebrown"
     ]
     apache::auth_kerb::access { "nagios":
         allowed_users           => $nagios_auth_users,
