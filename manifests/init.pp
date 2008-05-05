@@ -15,9 +15,6 @@ class nagios {
             }
         }
     }
-
-    # case this if you need it
-    $nagios_muninhost = $nagios_muninhost ? { "" => "munin.util.${site}", default => $nagios_munin_host }
 }
 
 class nagios::client inherits nagios {
@@ -194,6 +191,7 @@ define nagios::host (
     $check_command = 'check-host-alive'
 ) {
 
+    $nagios_muninhost = $nagios_muninhost ? { "" => "munin.util.${site}", default => $nagios_munin_host }
     $contacts = [] # leave this blank
     @@file { "host:${name}":
         name            => "/etc/nagios/conf.d/hosts/${name}.cfg",
