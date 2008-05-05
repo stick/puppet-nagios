@@ -64,7 +64,7 @@ class nagios::client inherits nagios {
     $swap_critical = $swap_critical ? { '' => '2%', default => $swap_critical }
 
     # case this if you need it
-    $nagios_muninhost = "munin.util.${site}"
+    $nagios_muninhost = ? $nagios_muninhost { "" => "munin.util.${site}", default => $nagios_munin_host }
 
     package { "nrpe":
         name    => $operatingsystemrelease ? {
