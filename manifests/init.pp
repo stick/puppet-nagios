@@ -217,6 +217,9 @@ class nagios::server inherits nagios {
     package { "nagios-plugins-nrpe":
         ensure  => installed,
     }
+    package { "net-snmp-utils":
+        ensure  => installed,
+    }
 
     service { "nagios":
         ensure          => running,
