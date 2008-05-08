@@ -17,9 +17,6 @@ class nagios {
             }
         }
     }
-
-    $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
-    $escalation_groups = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
 }
 
 class nagios::client inherits nagios {
@@ -156,12 +153,12 @@ define nagios::service (
     $nagios_template = 'generic-service',
     $host_name = $fqdn,
     $service_groups = [],
-    $contact_groups = '',
+    $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups },
     $max_check_attempts = 3,
     $dependency = false,
     $dependent_host = $fqdn,
     $dependent_services = '',
-    $escalation_groups = [],
+    $escalation_groups = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups },
     $escalation_stages = [ 7, 10 ],
     $check_command = ''
 ) {
