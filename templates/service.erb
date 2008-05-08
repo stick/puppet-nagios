@@ -30,7 +30,7 @@ define serviceescalation {
     last_notification           0
     notification_interval       5
 <% contacts << escalation_groups.shift -%>
-    contact_groups              <%= contacts %>
+    contact_groups              <%= contacts.join(",") %>
 }
 <% end -%>
 <% end -%>
