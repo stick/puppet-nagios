@@ -15,6 +15,9 @@ class nagios {
             }
         }
     }
+
+    $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
+    $escalation_groups = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
 }
 
 class nagios::client inherits nagios {
@@ -161,16 +164,6 @@ define nagios::service (
     $check_command = ''
 ) {
 
-    if $contact_groups {
-        $trash = "do nothing"
-    } else {
-        $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
-    }
-    if $escalation_groups {
-        $trash = "do nothing"
-    } else {
-        $escalation_groups = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
-    }
 
     $contacts = [] # leave this blank
     @@file { "service:${name}":
