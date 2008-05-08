@@ -6,7 +6,7 @@ define service {
     servicegroups               <%= service_groups.join(",") %>
 <% end -%>
     host_name                   <%= host_name %>
-    contact_groups              <%= contact_groups %>
+    contact_groups              <%= contact_groups.join(",") %>
     check_command               <%= check_command %>
     max_check_attempts          <%= max_check_attempts  %>
 }
