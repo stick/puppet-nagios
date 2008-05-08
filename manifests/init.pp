@@ -1,3 +1,5 @@
+import "firewall"
+
 class nagios {
     case $operatingsystemrelease {
         4: {
