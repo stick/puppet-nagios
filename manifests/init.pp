@@ -106,8 +106,6 @@ class nagios::client inherits nagios {
     }
 
     # defaults
-    $default_contact_group = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
-    $default_escalation = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
     $nagios_parent = $nagios_parent ? { '' => "", default => $nagios_parent }
 
     # we add ourself (the host) first
@@ -153,7 +151,7 @@ define nagios::service (
     $nagios_template = 'generic-service',
     $host_name = $fqdn,
     $service_groups = [],
-    $contact_groups = $default_contact_group,
+    $contact_groups = '',
     $max_check_attempts = 3,
     $dependency = false,
     $dependent_host = $fqdn,
@@ -163,10 +161,15 @@ define nagios::service (
     $check_command = ''
 ) {
 
-    if $contact_gropus {
+    if $contact_groups {
         $trash = "do nothing"
     } else {
-        notice "contact_groups not defined: ${contact_groups}"
+        $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups },
+    }
+    if $escalation_groups {
+        $trash = "do nothing"
+    } else {
+        $escalation_groups = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
     }
 
     $contacts = [] # leave this blank
