@@ -163,6 +163,12 @@ define nagios::service (
     $check_command = ''
 ) {
 
+    if $contact_gropus {
+        $trash = "do nothing"
+    } else {
+        notice "contact_groups not defined: ${contact_groups}"
+    }
+
     $contacts = [] # leave this blank
     @@file { "service:${name}":
         name            => "/etc/nagios/conf.d/services/${name}.cfg",
