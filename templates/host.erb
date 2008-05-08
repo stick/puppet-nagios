@@ -7,7 +7,9 @@ define host {
     hostgroups                  <%= host_groups.join(",") %>
 <% end -%>
     alias                       <%= nagios_alias %>
+<% unless contact_groups.empty? -%>
     contact_groups              <%= contact_groups.join(",") %> 
+<% end -%>
 <% unless parents.empty? -%>
     parents                     <%= parents %>
 <% end -%>
@@ -36,7 +38,9 @@ define service {
     use                         dummy-service
     service_description         OK
     host_name                   <%= name %>
+<% unless contact_groups.empty? -%>
     contact_groups              <%= contact_groups.join(",") %>
+<% end -%>
     check_command               check_ok
     max_check_attempts          1
 } 
