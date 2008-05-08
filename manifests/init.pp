@@ -164,7 +164,7 @@ define nagios::service (
     if $contact_groups {
         $trash = "do nothing"
     } else {
-        $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups },
+        $contact_groups = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
     }
     if $escalation_groups {
         $trash = "do nothing"
