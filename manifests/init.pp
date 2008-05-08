@@ -106,16 +106,15 @@ class nagios::client inherits nagios {
     }
 
     # defaults
-    $default_contact_group = "prodops" # make this a fact
-    # this 'should' be a fact, but you can't have a fact as an array
-    # TODO figure something out later
-    $default_escalation = [ "prodops_247", "managers" ] 
-    #$nagios_parent = $nagios_parent ? { '' => "corerouter.${site}", default => $nagios_parent }
+    $default_contact_group = $nagios_contact_groups ? { '' => [ "prodops" ], default => $nagios_contact_groups }
+    $default_escalation = $nagios_escalation_groups ? { '' => [ "prodops_247", "managers" ], default => $nagios_escalation_groups }
+    $nagios_parent = $nagios_parent ? { '' => "", default => $nagios_parent }
 
     # we add ourself (the host) first
     nagios::host { $fqdn:
         parents                 => $nagios_parent,
         escalation_groups       => $default_escalation,
+        host_groups             => $nagios_host_groups ? { '' => [], default => $nagios_host_groups },
     }
     # things we monitor for everything with this class
     if $raid {
@@ -153,7 +152,7 @@ class nagios::client inherits nagios {
 define nagios::service (
     $nagios_template = 'generic-service',
     $host_name = $fqdn,
-    $service_groups = '',
+    $service_groups = [],
     $contact_groups = $default_contact_group,
     $max_check_attempts = 3,
     $dependency = false,
@@ -179,7 +178,7 @@ define nagios::service (
 define nagios::host (
     $nagios_template = 'generic-host',
     $host_name = $fqdn,
-    $host_groups = '',
+    $host_groups = [],
     $nagios_alias = $fqdn,
     $parents = '',
     $contact_groups = $default_contact_group,

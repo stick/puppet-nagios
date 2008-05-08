@@ -4,10 +4,10 @@ define host {
     address                     <%= name %>
     notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
 <% unless host_groups.empty? -%>
-    hostgroups                  <%= host_groups %>
+    hostgroups                  <%= host_groups.join(",") %>
 <% end -%>
     alias                       <%= nagios_alias %>
-    contact_groups              <%= contact_groups %> 
+    contact_groups              <%= contact_groups.join(",") %> 
 <% unless parents.empty? -%>
     parents                     <%= parents %>
 <% end -%>
@@ -36,7 +36,7 @@ define service {
     use                         dummy-service
     service_description         OK
     host_name                   <%= name %>
-    contact_groups              <%= contact_groups %>
+    contact_groups              <%= contact_groups.join(",") %>
     check_command               check_ok
     max_check_attempts          1
 } 
