@@ -5,6 +5,7 @@ define host {
     notes_url                   http://<%= nagios_muninhost %>/munin/<%= domain %>/<%= name %>.html
 <% unless host_groups.empty? -%>
     hostgroups                  <%= host_groups.join(",") %>
+<% end -%>
     alias                       <%= nagios_alias %>
 <% unless contact_groups.empty? -%>
     contact_groups              <%= contact_groups.join(",") %> 
