@@ -47,7 +47,7 @@ full options :
 nagios::host { NAME:
     $nagios_template = 'generic-host',
     $host_name = #defaults to fully qualified hostname
-    $host_groups = '',
+    $host_groups = [],
     $nagios_alias = #defaults to fully qualified hostname
     $parents = '', [1]
     $contact_groups = $default_contact_group,
@@ -80,7 +80,7 @@ full options:
 nagios::service { NAME:
     $nagios_template = 'generic-service',
     $host_name = $fqdn,
-    $service_groups = '',
+    $service_groups = [],
     $contact_groups = $default_contact_group,
     $max_check_attempts = 3,
     $dependency = false, [1]
