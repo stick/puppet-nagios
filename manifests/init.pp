@@ -51,6 +51,10 @@ class nagios::client inherits nagios {
     $md4_critical = $md4_critical ? { '' => '5%', default => $md4_critical }
     $md5_warning = $md5_warning ? { '' => '10%', default => $md5_warning }
     $md5_critical = $md5_critical ? { '' => '5%', default => $md5_critical }
+ 
+    # mailq settings
+    $mailq_warning = $mailq_warning ? { '' => '75', default => $mailq_warning }
+    $mailq_critical = $mailq_critical ? { '' => '100', default => $mailq_critical }
 
     # procs
     # this is the number of procs in state Z or D (for iowait) to generate an alert

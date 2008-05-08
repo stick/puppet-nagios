@@ -110,3 +110,4 @@ command[check_http_lo]=/usr/<%= libdir -%>/nagios/plugins/check_http -H 127.0.0.
 command[graceful_apache]=/usr/bin/sudo /sbin/service httpd graceful
 command[check_poetic]=/usr/<%= libdir -%>/nagios/plugins/check_tcp -H 127.0.0.1 -M crit -s '<REQ><MSG><PROPS><_NAME>REQ</_NAME><_ACTION>GET_APPSERVER_STATUS</_ACTION></PROPS><SUBMSGS></SUBMSGS></MSG></REQ>' -e 'Success' -p 5866
 command[check_poetic_files]=/usr/bin/sudo /usr/<%= libdir -%>/nagios/plugins/check_open_files.sh -p java -w 996 -c 1000
+command[check_mailq]=/usr/<%= libdir -%>/nagios/plugins/check_mailq -w <% mailq_warning %> -c <% mailq_critical %>
