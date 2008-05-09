@@ -391,16 +391,7 @@ class nagios::server inherits nagios {
     # move this to something more common
     # short list for testing
     $nagios_auth_users = [
-        "cmacleod",
-        "csmith",
-        "jeckersb",
-        "jpickard",
-	"trobert",
-        "plundin",
-        "batkisso",
-        "jstrong",
-        "madisonj",
-        "ebrown"
+        "foo"`
     ]
     apache::auth_kerb::access { "nagios":
         allowed_users           => $nagios_auth_users,
